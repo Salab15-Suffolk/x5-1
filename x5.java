@@ -5,7 +5,7 @@
 
 String title=  "ELASTIC COLLISIONS  (x5.java)";
 String news=   "Use 'r' key to reset.";
-String author=  "Your Name";
+String author=  "Brian Salaway";
 
 
 float left, right, top, bottom;
@@ -31,10 +31,12 @@ void setup() {
    cueX=  left + (right-left) / 4;
    cueY=  top + (bottom-top) / 2;
    // Random positions.
+   
    redX=  random( middle,right );   redY=  random( top, bottom );
    yelX=  random( middle,right );   yelY=  random( top, bottom );
    bluX=  random( middle,right );   bluY=  random( top, bottom );
    // Random speeds
+   cueDX=   random(1,3);    cueDY= random (1,3); 
    redDX=  random( 1,3 );   redDY=  random( 1,3 );
    yelDX=  random( 1,3 );   redDY=  random( 1,3 );
    bluDX=  random( 1,3 );   bluDY=  random( 1,3 );
@@ -63,11 +65,18 @@ void table( float left, float top, float right, float bottom ) {
 
 //// ACTION:  bounce off walls, collisions
 void bounce() {
+  cueX += cueDX;  if ( cueX<left || cueX>right ) cueDX *= -1;
+  cueY += cueDY;  if ( cueY<top || cueY>bottom ) cueDY *=  -1;
+  
+  
   redX += redDX;  if ( redX<left || redX>right ) redDX *= -1;
   redY += redDY;  if ( redY<top || redY>bottom ) redDY *=  -1;
 
   yelX += yelDX;  if ( yelX<left || yelX>right ) yelDX *= -1;
   yelY += yelDY;  if ( yelY<top || yelY>bottom ) yelDY *=  -1;
+  
+  bluX += bluDX;  if ( bluX<left || bluX>right ) bluDX *= -1;
+  bluY += bluDY;  if ( bluY<top || bluY>bottom ) bluDY *=  -1;
 
 }
 void collisions() {
@@ -76,6 +85,32 @@ void collisions() {
   if ( dist( redX,redY, yelX,yelY ) < 30 ) {
     tmp=yelDX;  yelDX=redDX;  redDX=tmp;
     tmp=yelDY;  yelDY=redDY;  redDY=tmp;
+  }
+    if ( dist( redX,redY, bluX,bluY ) < 30 ) {
+    tmp=bluDX;  bluDX=redDX;  redDX=tmp;
+    tmp=bluDY;  bluDY=redDY;  redDY=tmp;
+  }
+  if ( dist( bluX,bluY, yelX,yelY ) < 30 ) {
+    tmp=yelDX;  yelDX=bluDX;  bluDX=tmp;
+    tmp=yelDY;  yelDY=bluDY;  bluDY=tmp;
+  }
+    
+    if ( dist( bluX,bluY, cueX,cueY ) < 30 ) {
+    tmp=cueDX;  cueDX=bluDX;  bluDX=tmp;
+    tmp=cueDY;  cueDY=bluDY;  bluDY=tmp;
+    
+     }
+    if ( dist( yelX,yelY, cueX,cueY ) < 30 ) {
+    tmp=cueDX;  cueDX=yelDX;  yelDX=tmp;
+    tmp=cueDY;  cueDY=yelDY;  yelDY=tmp;
+    
+     }
+    if ( dist( redX,redY, cueX,cueY ) < 30 ) {
+    tmp=cueDX;  cueDX=redDX;  redDX=tmp;
+    tmp=cueDY;  cueDY=redDY;  redDY=tmp;
+    
+   
+        
   }
 }
 
